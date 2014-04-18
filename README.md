@@ -16,6 +16,7 @@ Utility Scripts:
 *   \[VIP\] Queuer - [BOL thread](http://botoflegends.com/forum/topic/10590-action-queuer-nidalee-jumper-and-more/).
 *   \[VIP\] R4Me - [BOL thread](http://botoflegends.com/forum/topic/11412-r4me-ultimate-helper/).
 *   \[VIP\] ShoppingBasket - [BOL thread](http://botoflegends.com/forum/topic/12019-my-shopping-basket/).
+*   \[VIP\] JungleTimers.
 
 Libs:
 ------------
