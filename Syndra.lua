@@ -40,7 +40,7 @@ if DOWNLOADING_LIBS then print("Downloading required libraries, please wait...")
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 if AUTOUPDATE then
-	 SourceUpdater("SourceLib", version, "raw.github.com", "/honda7/BoL/master/Syndra.lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/Syndra.version"):CheckUpdate()
+	 SourceUpdater("Syndra", version, "raw.github.com", "/honda7/BoL/master/Syndra.lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/Syndra.version"):CheckUpdate()
 end
 
 local MainCombo = {ItemManager:GetItem("DFG"):GetId(), _Q, _W, _E, _R, _R, _R, _IGNITE}
