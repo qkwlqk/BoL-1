@@ -1,35 +1,39 @@
 if myHero.charName ~= "Cassiopeia" then return end
-local version = "2.04"
+
+local version = 2.05
 local AUTOUPDATE = true
+local SCRIPT_NAME = "Cassiopeia"
 
-local REQUIRED_LIBS = {
-		["VPrediction"] = "https://bitbucket.org/honda7/bol/raw/master/Common/VPrediction.lua",
-		["SOW"] = "https://bitbucket.org/honda7/bol/raw/master/Common/SOW.lua",
-		["SourceLib"] = "https://bitbucket.org/TheRealSource/public/raw/master/common/SourceLib.lua",
-	}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local DOWNLOADING_LIBS, DOWNLOAD_COUNT = false, 0
-local SELF_NAME = GetCurrentEnv() and GetCurrentEnv().FILE_NAME or ""
+local SOURCELIB_URL = "https://raw.github.com/TheRealSource/public/master/common/SourceLib.lua"
+local SOURCELIB_PATH = LIB_PATH.."SourceLib.lua"
 
-function AfterDownload()
-	DOWNLOAD_COUNT = DOWNLOAD_COUNT - 1
-	if DOWNLOAD_COUNT == 0 then
-		DOWNLOADING_LIBS = false
-		print("<b>[Cassiopeia]: Required libraries downloaded successfully, please reload (double F9).</b>")
-	end
+if FileExist(SOURCELIB_PATH) then
+	require("SourceLib")
+else
+	DOWNLOADING_SOURCELIB = true
+	DownloadFile(SOURCELIB_URL, SOURCELIB_PATH, function() print("Required libraries downloaded successfully, please reload") end)
 end
 
-for DOWNLOAD_LIB_NAME, DOWNLOAD_LIB_URL in pairs(REQUIRED_LIBS) do
-	if FileExist(LIB_PATH .. DOWNLOAD_LIB_NAME .. ".lua") then
-		require(DOWNLOAD_LIB_NAME)
-	else
-		DOWNLOADING_LIBS = true
-		DOWNLOAD_COUNT = DOWNLOAD_COUNT + 1
-		DownloadFile(DOWNLOAD_LIB_URL, LIB_PATH .. DOWNLOAD_LIB_NAME..".lua", AfterDownload)
-	end
+if DOWNLOADING_SOURCELIB then print("Downloading required libraries, please wait...") return end
+
+if AUTOUPDATE then
+	 SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/honda7/BoL/master/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/"..SCRIPT_NAME..".version"):CheckUpdate()
 end
 
-if DOWNLOADING_LIBS then print("<b>[Cassiopeia]: Downloading required libs, please wait...</b>") return end
+local RequireI = Require("SourceLib")
+RequireI:Add("vPrediction", "https://raw.github.com/honda7/BoL/master/Common/VPrediction.lua")
+RequireI:Add("SOW", "https://raw.github.com/honda7/BoL/master/Common/SOW.lua")
+RequireI:Check()
+
+if RequireI.downloadNeeded == true then return end
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local MainCombo = {_Q, _Q, _W, _E, _E, _R, _IGNITE}
 
@@ -38,11 +42,6 @@ local Ranges = {[_Q] = 850, [_W] = 850, [_E] = 700, [_R] = 825}
 local Widths = {[_Q] = 75, [_W] = 106, [_R] = 80 * math.pi / 180}
 local Delays = {[_Q] = 0.6, [_W] = 0.5, [_R] = 0.3}
 local Speeds = {[_Q] = math.huge, [_W] = 2500, [_R] = math.huge}
-
---AutoUpdater
-if AUTOUPDATE then
-	 LazyUpdater("Cassiopeia", version, "bitbucket.org", "/honda7/bol/raw/master/Cassio.lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME):SetSilent(false):CheckUpdate()
-end
 
 function OnLoad()
 	VP = VPrediction()
