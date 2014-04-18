@@ -1,6 +1,6 @@
 if myHero.charName ~= "Cassiopeia" then return end
 
-local version = 2.05
+local version = 2.06
 local AUTOUPDATE = true
 local SCRIPT_NAME = "Cassio"
 
@@ -120,6 +120,8 @@ function OnLoad()
 
 	EnemyMinions = minionManager(MINION_ENEMY, Ranges[_W], myHero, MINION_SORT_MAXHEALTH_DEC)
 	JungleMinions = minionManager(MINION_JUNGLE, Ranges[_W], myHero, MINION_SORT_MAXHEALTH_DEC)
+
+	TickLimiter(AutoR, 15)
 end
 
 function isPoisoned(target)
@@ -290,18 +292,20 @@ function OnTick()
 	if Menu.JungleFarm.Enabled then
 		JungleFarm()
 	end
-	
-	--Auto R
-	if Menu.Ultimate.Auto ~= 1 then
-		local Rtarget = STS:GetTarget(Ranges[_R])
-		R:SetAOE(true, R.width, Menu.Ultimate.Auto - 1)
-		R:Cast(Rtarget)
-		R:SetAOE(true)
-	end
+
 
 	--R aim
 	if Menu.Ultimate.AutoAim then
 		local Rtarget = STS:GetTarget(Ranges[_R])
 		R:Cast(Rtarget)
+	end
+end
+
+function AutoR()
+	if Menu.Ultimate.Auto ~= 1 then
+		local Rtarget = STS:GetTarget(Ranges[_R])
+		R:SetAOE(true, R.width, Menu.Ultimate.Auto - 1)
+		R:Cast(Rtarget)
+		R:SetAOE(true)
 	end
 end
