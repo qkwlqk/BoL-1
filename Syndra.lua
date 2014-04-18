@@ -8,41 +8,32 @@ local SCRIPT_NAME = "Syndra"
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local REQUIRED_LIBS = {
-		["VPrediction"] = "https://raw.github.com/honda7/BoL/master/Common/VPrediction.lua",
-		["SOW"] = "https://raw.github.com/honda7/BoL/master/Common/SOW.lua",
-		["SourceLib"] = "https://raw.github.com/TheRealSource/public/master/common/SourceLib.lua",
-	}
+local SOURCELIB_URL = "https://raw.github.com/TheRealSource/public/master/common/SourceLib.lua"
+local SOURCELIB_PATH = LIB_PATH.."SourceLib.lua"
 
-local DOWNLOADING_LIBS, DOWNLOAD_COUNT = false, 0
-local SELF_NAME = GetCurrentEnv() and GetCurrentEnv().FILE_NAME or ""
-
-function AfterDownload()
-	DOWNLOAD_COUNT = DOWNLOAD_COUNT - 1
-	if DOWNLOAD_COUNT == 0 then
-		DOWNLOADING_LIBS = false
-		print("<b>["..SCRIPT_NAME.."]: Required libraries downloaded successfully, please reload (double F9).</b>")
-	end
+if FileExist(SOURCELIB_PATH) then
+	require("SourceLib")
+else
+	DOWNLOADING_SOURCELIB = true
+	DownloadFile(SOURCELIB_URL, SOURCELIB_PATH, function() print("Required libraries downloaded successfully, please reload") end)
 end
 
-for DOWNLOAD_LIB_NAME, DOWNLOAD_LIB_URL in pairs(REQUIRED_LIBS) do
-	if FileExist(LIB_PATH .. DOWNLOAD_LIB_NAME .. ".lua") then
-		require(DOWNLOAD_LIB_NAME)
-	else
-		DOWNLOADING_LIBS = true
-		DOWNLOAD_COUNT = DOWNLOAD_COUNT + 1
-		DownloadFile(DOWNLOAD_LIB_URL, LIB_PATH .. DOWNLOAD_LIB_NAME..".lua", AfterDownload)
-	end
-end
-
-if DOWNLOADING_LIBS then print("Downloading required libraries, please wait...") return end
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+if DOWNLOADING_SOURCELIB then print("Downloading required libraries, please wait...") return end
 
 if AUTOUPDATE then
 	 SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/honda7/BoL/master/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/"..SCRIPT_NAME..".version"):CheckUpdate()
 end
+
+local RequireI = Require("SourceLib")
+RequireI:Add("vPrediction", "https://raw.github.com/honda7/BoL/master/Common/VPrediction.lua")
+RequireI:Add("SOW", "https://raw.github.com/honda7/BoL/master/Common/SOW.lua")
+RequireI:Check()
+
+if RequireI.downloadNeeded == true then return end
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local MainCombo = {ItemManager:GetItem("DFG"):GetId(), _Q, _W, _E, _R, _R, _R, _IGNITE}
 local _QE = 1337
