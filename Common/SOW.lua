@@ -11,7 +11,6 @@ if AUTOUPDATE then
 	if ServerData then
 		ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
 		if ServerVersion then
-			print(ServerVersion)
 			if tonumber(version) < ServerVersion then
 				_AutoupdaterMsg("New version available"..ServerVersion)
 				_AutoupdaterMsg("Updating, please don't press F9")
