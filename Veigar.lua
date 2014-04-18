@@ -1,57 +1,40 @@
---[[
-Changelog:
-
-v1.5
-	[*] Replaced prodiction
-	[+] Added orbwalker
-v1.4
-	[+] Added the option to stun closest enemy
-	[+] Added the option to priorize selected target (by left clicking)
-v1.3
-	[+] Added multi target support to the stun (currently 2 targets max) (optional)
-v1.2
-	[+] Added auto update
-	[*] Fixed some minor bugs
-v1.1:
-	[*] Now veigar casts the W always after the stun
-	[+] Added the option to farm using W
-	[+] Added the option to harras using W 
-	
-ProVeigar; 
-
-Requeriments:
-	-Prodiction
-
-Features:
-	-Combo
-		-DFG and ignite Support
-		-Uses W in stunned enemies (Uses prodiction callbacks)
-		-Harras enemies in range with Q
-		-Uses important spells only if the enemy can die
-		-Cast E with Prodiction 
-		-Casts targetted spells using packets for better kiting
-		-Option to throw all the combo in the target
-
-	-Target Selector
-		-Independent target selector aims the target that can die more easily
-		-Avoid using important spells in selected enemies
-
-	-Farm
-		-Farms minions using Q
-		-Farms minions using W
-		-Option to save mana for E
-
-	-Ultimate interruption
-		-Interrupts channelled spells with E
-
-	-Drawing
-		-Draws remaining health after combo in health bar
-		-Warns when there is no mana for using a full combo
-]]
-
 if myHero.charName ~= "Veigar" then return end
-	local version = "1.5"
-	require "VPrediction"
+
+local version = 1.51
+local AUTOUPDATE = true
+local SCRIPT_NAME = "Veigar"
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+local SOURCELIB_URL = "https://raw.github.com/TheRealSource/public/master/common/SourceLib.lua"
+local SOURCELIB_PATH = LIB_PATH.."SourceLib.lua"
+
+if FileExist(SOURCELIB_PATH) then
+	require("SourceLib")
+else
+	DOWNLOADING_SOURCELIB = true
+	DownloadFile(SOURCELIB_URL, SOURCELIB_PATH, function() print("Required libraries downloaded successfully, please reload") end)
+end
+
+if DOWNLOADING_SOURCELIB then print("Downloading required libraries, please wait...") return end
+
+if AUTOUPDATE then
+	 SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/honda7/BoL/master/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/"..SCRIPT_NAME..".version"):CheckUpdate()
+end
+
+local RequireI = Require("SourceLib")
+RequireI:Add("vPrediction", "https://raw.github.com/honda7/BoL/master/Common/VPrediction.lua")
+RequireI:Add("SOW", "https://raw.github.com/honda7/BoL/master/Common/SOW.lua")
+RequireI:Check()
+
+if RequireI.downloadNeeded == true then return end
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	
 --[[	Spell Data	]]
 	--[[	Ranges and radiuses]]
