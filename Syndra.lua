@@ -8,9 +8,9 @@ local AUTOUPDATE = true
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local REQUIRED_LIBS = {
-		["VPrediction"] = "https://bitbucket.org/honda7/bol/raw/master/Common/VPrediction.lua",
-		["SOW"] = "https://bitbucket.org/honda7/bol/raw/master/Common/SOW.lua",
-		["SourceLib"] = "https://bitbucket.org/TheRealSource/public/raw/master/common/SourceLib.lua",
+		["VPrediction"] = "https://raw.github.com/honda7/BoL/master/Common/VPrediction.lua",
+		["SOW"] = "https://raw.github.com/honda7/BoL/master/Common/SOW.lua",
+		["SourceLib"] = "https://raw.github.com/TheRealSource/public/master/common/SourceLib.lua",
 	}
 
 local DOWNLOADING_LIBS, DOWNLOAD_COUNT = false, 0
@@ -40,7 +40,7 @@ if DOWNLOADING_LIBS then print("Downloading required libraries, please wait...")
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 if AUTOUPDATE then
-	 LazyUpdater("Syndra", version, "bitbucket.org", "/honda7/bol/raw/master/Syndra.lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME):SetSilent(false):CheckUpdate()
+	 SourceUpdater("SourceLib", version, "raw.github.com", "/honda7/BoL/master/Syndra.lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/Syndra.version"):CheckUpdate()
 end
 
 local MainCombo = {ItemManager:GetItem("DFG"):GetId(), _Q, _W, _E, _R, _R, _R, _IGNITE}
