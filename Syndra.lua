@@ -2,6 +2,7 @@ if myHero.charName ~= "Syndra" then return end
 
 local version = 1.06
 local AUTOUPDATE = true
+local SCRIPT_NAME = "Syndra"
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -20,7 +21,7 @@ function AfterDownload()
 	DOWNLOAD_COUNT = DOWNLOAD_COUNT - 1
 	if DOWNLOAD_COUNT == 0 then
 		DOWNLOADING_LIBS = false
-		print("<b>[Syndra]: Required libraries downloaded successfully, please reload (double F9).</b>")
+		print("<b>["..SCRIPT_NAME.."]: Required libraries downloaded successfully, please reload (double F9).</b>")
 	end
 end
 
@@ -40,7 +41,7 @@ if DOWNLOADING_LIBS then print("Downloading required libraries, please wait...")
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 if AUTOUPDATE then
-	 SourceUpdater("Syndra", version, "raw.github.com", "/honda7/BoL/master/Syndra.lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/Syndra.version"):CheckUpdate()
+	 SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/honda7/BoL/master/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/"..SCRIPT_NAME..".version"):CheckUpdate()
 end
 
 local MainCombo = {ItemManager:GetItem("DFG"):GetId(), _Q, _W, _E, _R, _R, _R, _IGNITE}
