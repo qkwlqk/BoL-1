@@ -50,9 +50,6 @@ local Speeds = {[_Q] = 1600}
 
 
 local LastQTime = 0
-if AUTOUPDATE then
-	 LazyUpdater("Brand", version, "bitbucket.org", "/honda7/bol/raw/master/Brand.lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME):SetSilent(false):CheckUpdate()
-end
 function OnLoad()
 
 	VP = VPrediction()
