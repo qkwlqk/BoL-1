@@ -1,4 +1,4 @@
-local version = 1.02
+local version = 1.03
 local AUTOUPDATE = true
 local SCRIPT_NAME = "Orbwalker"
 
@@ -10,16 +10,16 @@ local SOURCELIB_URL = "https://raw.github.com/TheRealSource/public/master/common
 local SOURCELIB_PATH = LIB_PATH.."SourceLib.lua"
 
 if FileExist(SOURCELIB_PATH) then
-	require("SourceLib")
+    require("SourceLib")
 else
-	DOWNLOADING_SOURCELIB = true
-	DownloadFile(SOURCELIB_URL, SOURCELIB_PATH, function() print("Required libraries downloaded successfully, please reload") end)
+    DOWNLOADING_SOURCELIB = true
+    DownloadFile(SOURCELIB_URL, SOURCELIB_PATH, function() print("Required libraries downloaded successfully, please reload") end)
 end
 
 if DOWNLOADING_SOURCELIB then print("Downloading required libraries, please wait...") return end
 
 if AUTOUPDATE then
-	 SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/honda7/BoL/master/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/"..SCRIPT_NAME..".version"):CheckUpdate()
+     SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/honda7/BoL/master/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/honda7/BoL/master/VersionFiles/"..SCRIPT_NAME..".version"):CheckUpdate()
 end
 
 local RequireI = Require("SourceLib")
@@ -183,7 +183,7 @@ function DelayedLoad()
         end
         Menu:addSubMenu("Drawing", "Drawing")
 
-        local AArangeCircle = DManager:CreateCircle(myHero, SOWi:MyRange()+50, 1, {255, 255, 255, 255})
+        AArangeCircle = DManager:CreateCircle(myHero, SOWi:MyRange()+50, 1, {255, 255, 255, 255})
         AArangeCircle:AddToMenu(Menu.Drawing, "Auto Attack range", true, true, true)
 
         SOWi:LoadToMenu(Menu)
@@ -193,8 +193,9 @@ end
 
 function OnTick()
     if SOWi and AArangeCircle then
-        AArangeCircle.radius = SOWi:MyRange()
+        AArangeCircle.radius = SOWi:MyRange() + 50
     end
+
     if SOWi and not SOWi:GetTarget() and Spells[myHero.charName] then
         for id, spell in pairs(Spells[myHero.charName]) do
             local range = spell.range == -1 and SOWi:MyRange() or spell.range
