@@ -1,4 +1,4 @@
-local version = "2.431"
+local version = "2.5"
 local TESTVERSION = false
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
