@@ -126,6 +126,7 @@ function SOW:LoadToMenu(m, STS)
 	self.Menu.ExtraWindUpTime = GetSave("SOW").ExtraWindUpTime
 
 	self.Menu:addParam("Attack",  "Attack", SCRIPT_PARAM_LIST, 2, { "Only Farming", "Farming + Carry mode"})
+	self.Menu:addParam("Mode",  "Orbwalking mode", SCRIPT_PARAM_LIST, 1, { "To mouse", "To target"})
 
 	self.Menu:addParam("Hotkeys", "", SCRIPT_PARAM_INFO, "")
 
@@ -178,7 +179,7 @@ function SOW:MyRange(target)
 	if target and ValidTarget(target) then
 		myRange = myRange + self.VP:GetHitBox(target)
 	end
-	return myRange - 4
+	return myRange - 20
 end
 
 function SOW:InRange(target)
@@ -269,8 +270,14 @@ function SOW:OrbWalk(target, point)
 		self:Attack(target)
 	elseif self:CanMove() and self.Move then
 		if not point then
-			local Mv = Vector(myHero) + 400 * (Vector(mousePos) - Vector(myHero)):normalized()
-			self:MoveTo(Mv.x, Mv.z)
+			local OBTarget = GetTarget()
+			if self.Menu.Mode == 1 or not OBTarget then
+				local Mv = Vector(myHero) + 400 * (Vector(mousePos) - Vector(myHero)):normalized()
+				self:MoveTo(Mv.x, Mv.z)
+			elseif GetDistanceSqr(OBTarget) > 50*50 then
+				local point = self.VP:GetPredictedPos(OBTarget, 0, 2*myHero.ms, myHero, false)
+				self:MoveTo(point.x, point.z)
+			end
 		else
 			self:MoveTo(point.x, point.z)
 		end
