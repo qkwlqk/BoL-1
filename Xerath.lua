@@ -1,6 +1,6 @@
 if myHero.charName ~= "Xerath" then return end
 
-local version = 2.01
+local version = 2.02
 local AUTOUPDATE = true
 local SCRIPT_NAME = "Xerath"
 
@@ -75,7 +75,7 @@ function GetClosestTargetToMouse()
 		local dist = GetDistanceSqr(mousePos, enemy)
 		if ValidTarget(enemy) and dist < 1000 * 1000 then
 			if dist <= mindist then
-				mindist = min
+				mindist = dist
 				result = enemy
 			end
 		end
