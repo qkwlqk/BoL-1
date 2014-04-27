@@ -1,4 +1,4 @@
-local version = "1.128"
+local version = "1.129"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/honda7/BoL/master/Common/SOW.lua".."?rand="..math.random(1,10000)
@@ -439,13 +439,13 @@ function SOW:BonusDamage(minion)
 		if not CallbackZiggsAdded then
 			function ZiggsParticle(obj)
 				if GetDistance(obj) < 100 and obj.name:lower():find("ziggspassive") then
-						ZiggsParticle = obj
+						ZiggsParticleObj = obj
 				end
 			end
 			AddCreateObjCallback(ZiggsParticle)
 			CallbackZiggsAdded = true
 		end
-		if ZiggsParticle and ZiggsParticle.valid then
+		if ZiggsParticleObj and ZiggsParticleObj.valid then
 			local base = {20, 24, 28, 32, 36, 40, 48, 56, 64, 72, 80, 88, 100, 112, 124, 136, 148, 160}
 			BONUS = BONUS + myHero:CalcMagicDamage(minion, base[myHero.level] + (0.25 + 0.05 * (myHero.level % 7)) * myHero.ap)  
 		end
