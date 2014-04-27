@@ -1,4 +1,4 @@
-local version = "1.127"
+local version = "1.128"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/honda7/BoL/master/Common/SOW.lua".."?rand="..math.random(1,10000)
@@ -339,7 +339,7 @@ end
 function SOW:resetAA()
 	self.LastAttack = 0
 end
-
+--TODO: Change this.
 function SOW:BonusDamage(minion)
 	local AD = myHero:CalcDamage(minion, myHero.totalDamage)
 	local BONUS = 0
@@ -434,6 +434,20 @@ function SOW:BonusDamage(minion)
 				RecvPacketNasusAdded = true
 				AddRecvPacketCallback(NasusOnRecvPacket)
 			end
+		end
+	elseif myHero.charName == "Ziggs" then
+		if not CallbackZiggsAdded then
+			function ZiggsParticle(obj)
+				if GetDistance(obj) < 100 and obj.name:lower():find("ziggspassive") then
+						ZiggsParticle = obj
+				end
+			end
+			AddCreateObjCallback(ZiggsParticle)
+			CallbackZiggsAdded = true
+		end
+		if ZiggsParticle and ZiggsParticle.valid then
+			local base = {20, 24, 28, 32, 36, 40, 48, 56, 64, 72, 80, 88, 100, 112, 124, 136, 148, 160}
+			BONUS = BONUS + myHero:CalcMagicDamage(minion, base[myHero.level] + (0.25 + 0.05 * (myHero.level % 7)) * myHero.ap)  
 		end
 	end
 
